@@ -5,11 +5,21 @@ var router = express.Router();
 const Message = require('../models/message.model');
 
 /* Toutes les routes décrites dans ce fichier correspondent à des URL commençant par : localhost:8080/messages/... */
-
+var moment = require('moment');
 // route pour l'URL : localhost:8080/messages/
 router.get('/', function(req, res) {
     console.log('GET /messages/ pour lire tous les messages');
-    res.send("Ici, on aura la lecture des messages");
+    Message.readAll(function(err,data){
+        if (err) {
+            res.status(500).send({
+                message: "erreur pendant la lecture de tous les messages"
+});
+ } else {
+        console.log("Data =",+data);
+        const titrePage = "liste des messages";
+        res.render('listeMessages.ejs', {title:titrePage, donnees:data, moment: moment});
+    }
+});
 });
 
 // route pour l'URL : localhost:8080/messages/create
@@ -28,8 +38,8 @@ router.post('/create', function(req,res){
 
         // créer un message avec son modèle
         const unMsg = new Message({
-            nom: req.body.nom,
-            msg: req.body.msg
+            nom: lenom,
+            msg: lemessage
         });
 console.log(unMsg);
         // utiliser la méthode create du modèle Message

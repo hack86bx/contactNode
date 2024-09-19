@@ -1,0 +1,36 @@
+<%- include('header.ejs') %>
+
+    <main>
+        <% if (donnees.length) { %>
+            
+            <table>
+                <tr>
+
+                    <th>ID</th>
+                    <th>nom</th>
+                    <th>Message</th>
+                    <th>Date</th>
+
+                </tr>
+
+                <% for(var i=0; i<donnees.length; i++) { %>
+                    <tr>
+
+                <td><%= donnees[i].id %></td>
+                <td><%= donnees[i].nom %></td>
+                <td><%= donnees[i].message %></td>
+                <td><%= moment(donnees[i].datemessage).format('DD-MMM-YYYY HH:mm:ss') %></td>
+
+                </tr>        
+                <% } %>
+
+            </table>
+
+        <% } %>
+        <% if (!donnees.length) { %>
+            <p>pas de msg</p>
+        <% } %>
+
+    </main>
+
+<%- include('footer.ejs') -%>
