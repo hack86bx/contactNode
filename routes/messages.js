@@ -6,24 +6,15 @@ const Message = require('../models/message.model');
 
 /* Toutes les routes décrites dans ce fichier correspondent à des URL commençant par : localhost:8080/messages/... */
 var moment = require('moment');
+
+const messages = require("../controllers/message.controller.js")
 // route pour l'URL : localhost:8080/messages/
-router.get('/', function(req, res) {
-    console.log('GET /messages/ pour lire tous les messages');
-    Message.readAll(function(err,data){
-        if (err) {
-            res.status(500).send({
-                message: "erreur pendant la lecture de tous les messages"
-});
- } else {
-        console.log("Data =",+data);
-        const titrePage = "liste des messages";
-        res.render('listeMessages.ejs', {title:titrePage, donnees:data, moment: moment});
-    }
-});
-});
+router.get('/', messages.readAll); 
+    
+
 
 // route pour l'URL : localhost:8080/messages/create
-router.post('/create', function(req,res){
+router.post('/create', messages.create);
     console.log('POST /create pour écrire un message');
     var titrePage = "Formulaire reçu";
     var lenom = req.body.nom;
@@ -53,6 +44,6 @@ console.log(unMsg);
             }
         });
     }
-});
+
 
 module.exports = router;
